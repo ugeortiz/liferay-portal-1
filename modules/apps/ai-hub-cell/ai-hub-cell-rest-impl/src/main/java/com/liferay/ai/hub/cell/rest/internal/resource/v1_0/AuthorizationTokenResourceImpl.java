@@ -43,7 +43,8 @@ public class AuthorizationTokenResourceImpl
 			_configurationProvider.getCompanyConfiguration(
 				AIHubCellConfiguration.class, contextCompany.getCompanyId());
 
-		if (Validator.isBlank(aiHubCellConfiguration.serviceURL()) ||
+		if ((aiHubCellConfiguration == null) ||
+			Validator.isBlank(aiHubCellConfiguration.serviceURL()) ||
 			Validator.isBlank(aiHubCellConfiguration.clientId()) ||
 			Validator.isBlank(aiHubCellConfiguration.clientSecret())) {
 

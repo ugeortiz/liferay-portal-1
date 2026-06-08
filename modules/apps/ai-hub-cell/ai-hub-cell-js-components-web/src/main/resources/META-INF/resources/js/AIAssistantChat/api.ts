@@ -112,7 +112,25 @@ export async function postChatByExternalReferenceCodeMessage({
 	);
 
 	if (!response.ok) {
-		throw new Error(`Failed to send message: ${response.statusText}`);
+		let errorMessage = `Failed to send message: ${response.statusText}`;
+
+		try {
+			const errorData = await response.json();
+
+			if (errorData?.message) {
+				errorMessage = errorData.message;
+			}
+			else if (errorData?.title) {
+				errorMessage = errorData.title;
+			}
+		}
+		catch {
+
+			// ignore JSON parse errors, use default message
+
+		}
+
+		throw new Error(errorMessage);
 	}
 
 	return response;

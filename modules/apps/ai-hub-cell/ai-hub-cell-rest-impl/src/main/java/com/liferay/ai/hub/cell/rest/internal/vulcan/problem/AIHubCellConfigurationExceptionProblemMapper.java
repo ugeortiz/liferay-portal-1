@@ -33,7 +33,7 @@ public class AIHubCellConfigurationExceptionProblemMapper
 
 			@Override
 			public Status getStatus() {
-				return Status.BAD_REQUEST;
+				return Status.INTERNAL_SERVER_ERROR;
 			}
 
 			@Override

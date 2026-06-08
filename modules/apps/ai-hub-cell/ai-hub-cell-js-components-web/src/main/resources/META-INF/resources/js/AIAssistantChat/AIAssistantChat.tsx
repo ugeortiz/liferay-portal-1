@@ -82,7 +82,7 @@ const AIAssistantChat: React.FC<AIAssistantChatProps> = ({
 				]);
 			});
 		}
-		else {
+		else if (!eventSourceReference.current) {
 			setMessages((previousMessages) => [
 				...previousMessages,
 				{

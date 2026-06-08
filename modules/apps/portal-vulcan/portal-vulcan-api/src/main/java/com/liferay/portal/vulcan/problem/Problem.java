@@ -22,7 +22,7 @@ public interface Problem {
 
 	public static enum Status {
 
-		BAD_REQUEST, CONFLICT, NOT_FOUND
+		BAD_REQUEST, CONFLICT, INTERNAL_SERVER_ERROR, NOT_FOUND
 
 	}
 

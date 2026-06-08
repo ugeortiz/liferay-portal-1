@@ -98,6 +98,12 @@ public class ExceptionMapper extends BaseExceptionMapper<Exception> {
 			return Response.Status.CONFLICT;
 		}
 
+		if (com.liferay.portal.vulcan.problem.Problem.Status.
+				INTERNAL_SERVER_ERROR.equals(status)) {
+
+			return Response.Status.INTERNAL_SERVER_ERROR;
+		}
+
 		if (com.liferay.portal.vulcan.problem.Problem.Status.NOT_FOUND.equals(
 				status)) {
 

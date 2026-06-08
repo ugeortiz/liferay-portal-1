@@ -6,6 +6,7 @@
 import {EventSource} from 'eventsource';
 import {fetch} from 'frontend-js-web';
 
+import {postAuthorizationToken} from '../AIAssistantChat/api';
 import {EActionType} from './types';
 
 const AI_HUB_ENDPOINT = '/o/ai-hub/v1.0';
@@ -35,61 +36,12 @@ export async function createEventSource() {
 	);
 }
 
-async function postAuthorizationToken() {
-	const response = await fetch('/o/ai-hub-cell/v1.0/authorization-tokens', {
-		method: 'POST',
-	});
-
-	if (!response.ok) {
-		let errorMessage = `Unable to generate authorization token: ${response.statusText}`;
-
-		try {
-			const errorData = await response.json();
-
-			if (errorData?.message) {
-				errorMessage = errorData.message;
-			}
-			else if (errorData?.title) {
-				errorMessage = errorData.title;
-			}
-		}
-		catch {
-
-			// ignore JSON parse errors, use default message
-
-		}
-
-		throw new Error(errorMessage);
-	}
-
-	const data = await response.json();
-
-	if (!data?.accessToken) {
-		throw new Error('Unable to generate authorization token.');
-	}
-
-	if (!data?.userToken) {
-		throw new Error('Unable to generate user token.');
-	}
-
-	if (!data?.serviceURL) {
-		throw new Error('Unable to find service URL.');
-	}
-
-	return data;
-}
-
 export async function postAgentInstance(
 	content: string,
 	eventSourceReference: string,
 	type: EActionType
 ) {
 	const authorizationToken = await postAuthorizationToken();
-
-	if (!authorizationToken) {
-		throw new Error('Unable to generate authorization token.');
-	}
-
 	const response = await fetch(
 		`${authorizationToken.serviceURL}${AI_HUB_ENDPOINT}/agent-instances`,
 		{
